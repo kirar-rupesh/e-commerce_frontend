@@ -11,7 +11,7 @@ import ProductDetailPage from './Pages/ProductDetailPage'; // Import Detail Page
 import WishlistPage from './Pages/WishlistPage'; // Import Wishlist Page
 import CartPage from './Pages/CartPage'; // Import Cart Page
 import Navbar from './Components/Navbar';
-import CheckoutPage from './Pages/CheckOutPage';
+import CheckoutPage from './Pages/CheckoutPage';
 import ThankYouPage from './Pages/ThankyouPage';
 
 function App() {
