@@ -50,7 +50,7 @@ const CheckoutPage = () => {
           <form className="address-form" onSubmit={handleCheckout}>
             <div className="form-group">
               <label>Full Name</label>
-              <input type="text" name="name" value={address.name} onChange={handleChange} required placeholder="John Doe" />
+              <input type="text" name="name" value={address.name} onChange={handleChange} required placeholder="Your Name" />
             </div>
             <div className="form-group">
               <label>Mobile Number</label>

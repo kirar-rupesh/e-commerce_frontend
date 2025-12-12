@@ -25,8 +25,8 @@ const ProductPage = () => {
     const fetchData = async () => {
       try {
         // Fetching from the API created in previous steps
-        const prodRes = await fetch('http://localhost:5000/api/products');
-        const catRes = await fetch('http://localhost:5000/api/categories');
+        const prodRes = await fetch('https://e-commerce-backend-rosy-six.vercel.app/api/products');
+        const catRes = await fetch('https://e-commerce-backend-rosy-six.vercel.app/api/categories');
 
         const prodData = await prodRes.json();
         const catData = await catRes.json();

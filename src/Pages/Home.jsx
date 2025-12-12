@@ -11,7 +11,7 @@ function HomePage() {
 
   useEffect(() => {
     // Fetch categories from your backend
-    fetch('http://localhost:5000/api/categories') 
+    fetch('https://e-commerce-backend-rosy-six.vercel.app/api/categories') 
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch categories');

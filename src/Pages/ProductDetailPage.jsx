@@ -88,7 +88,7 @@ const ProductDetailPage = () => {
   const { addToCart, addToWishlist } = useCart();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${productId}`)
+    fetch(`https://e-commerce-backend-rosy-six.vercel.app/api/products/${productId}`)
       .then((res) => res.json())
       .then((data) => setProduct(data.data.product))
       .catch((err) => console.error(err));
