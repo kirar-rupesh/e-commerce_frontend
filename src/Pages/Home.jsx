@@ -11,7 +11,7 @@ function HomePage() {
 
   useEffect(() => {
     // Fetch categories from your backend
-    fetch('https://e-commerce-backend-rosy-six.vercel.app/api/categories') 
+    fetch('https://e-commerce-backend-rosy-six.vercel.app/api/categories')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
@@ -32,28 +32,30 @@ function HomePage() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div> 
+    <div>
 
-    <Navbar/>
-    <div className="home-page-container">
+      <Navbar />
+      <div className="home-page-container">
 
-      <h1>Featured Categories</h1>
-      <div className="category-list">
-        {categories.map(category => (
-          // Link to the product list page, passing categoryId in the URL
-          <Link 
-            to={`/products/${category.categoryId}`} 
-            key={category.categoryId} 
-            className="category-card"
-          >
-            <h2>{category.name}</h2>
-            {/* <p>Shop {category.name}</p> */}
-          </Link>
-        ))}
-      </div>
-      
-      {/* Basic Styling Hint for CSS */}
-      <style>{`
+        <h1>Featured Categories</h1>
+        <div className="category-list">
+          {categories.map(category => (
+            // Link to the product list page, passing categoryId in the URL
+            <Link
+              // to={`/products/${category.categoryId}`}
+              to="/products"
+              state={{ categoryName: category.name }}
+              key={category.categoryId}
+              className="category-card"
+            >
+              <h2>{category.name}</h2>
+              {/* <p>Shop {category.name}</p> */}
+            </Link>
+          ))}
+        </div>
+
+        {/* Basic Styling Hint for CSS */}
+        <style>{`
 
         .home-page-container {
           padding: 20px;
@@ -91,8 +93,8 @@ function HomePage() {
 
       `}</style>
 
+      </div>
     </div>
-     </div>
   );
 }
 

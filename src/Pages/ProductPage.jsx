@@ -1,24 +1,29 @@
 import './ProductPage.css';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../Context/CartContext';
 import Navbar from '../Components/Navbar';
 
 const ProductPage = () => {
 
   // 2. Get the functions from Context
-  const { addToCart, addToWishlist,  searchQuery ,cart, wishlist } = useCart();
+  const { addToCart, addToWishlist, searchQuery, cart, wishlist } = useCart();
 
   // --- STATE MANAGEMENT ---
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // Filter States
-  const [priceRange, setPriceRange] = useState(2000); // Max price slider
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const [minRating, setMinRating] = useState(0);
   const [sortOrder, setSortOrder] = useState(""); // "lowToHigh" | "highToLow"
+  
+  const { state } = useLocation();
+  // Filter States
+  const [priceRange, setPriceRange] = useState(2000); // Max price slider
+  // const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState(
+    state && state.categoryName ? [state.categoryName] : []
+  );
 
   // --- INITIAL DATA FETCH ---
   useEffect(() => {
@@ -32,8 +37,9 @@ const ProductPage = () => {
         const catData = await catRes.json();
 
         setAllProducts(prodData.data.products);
-        setFilteredProducts(prodData.data.products); // Initially show all
+        // setFilteredProducts(prodData.data.products); // Initially show all
         setCategories(catData.data.categories);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -41,13 +47,21 @@ const ProductPage = () => {
     fetchData();
   }, []);
 
+  // --- HANDLE INCOMING CATEGORY FROM HOME PAGE ---
+  // useEffect(() => {
+  //   if (state && state.categoryName) {
+  //     // Directly set the selected category to the one passed in state
+  //     setSelectedCategories([state.categoryName]);
+  //   }
+  // }, [state]);
+
   // --- FILTERING LOGIC ---
   useEffect(() => {
     let tempProducts = [...allProducts];
 
-     // --- NEW CODE: Filter by Search Query ---
+    // --- NEW CODE: Filter by Search Query ---
     if (searchQuery) {
-      tempProducts = tempProducts.filter(prod => 
+      tempProducts = tempProducts.filter(prod =>
         prod.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
@@ -77,7 +91,7 @@ const ProductPage = () => {
     }
 
     setFilteredProducts(tempProducts);
-  }, [allProducts, priceRange, selectedCategories, minRating, sortOrder,  searchQuery]);
+  }, [allProducts, priceRange, selectedCategories, minRating, sortOrder, searchQuery]);
 
 
   // --- HANDLERS ---
@@ -186,7 +200,7 @@ const ProductPage = () => {
         <main className="product-section">
           <div className="products-header">
             {/* Showing All Products  */}
-            {searchQuery ? `Results for "${searchQuery}"` : "Showing All Products"} 
+            {searchQuery ? `Results for "${searchQuery}"` : "Showing All Products"}
             ({filteredProducts.length} products)
           </div>
 
