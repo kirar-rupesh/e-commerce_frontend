@@ -1,81 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { useCart } from '../Context/CartContext';
-// import './ProductPage.css'; // Re-using existing CSS
-// import Navbar from '../Components/Navbar';
-
-// const ProductDetailPage = () => {
-//   const { productId } = useParams();
-//   const [product, setProduct] = useState(null);
-//   const { addToCart, addToWishlist } = useCart();
-
-//   useEffect(() => {
-//     // Fetch single product from your Backend API
-//     fetch(`http://localhost:5000/api/products/${productId}`)
-//       .then((res) => res.json())
-//       .then((data) => setProduct(data.data.product))
-//       .catch((err) => console.error(err));
-//   }, [productId]);
-
-//   if (!product) return <div className="app-container" style={{ padding: '20px' }}>Loading...</div>;
-
-//   return (
-//     <div className="app-container">
-//       <Navbar />
-//       <div className="main-content"
-//         style={{
-//           // justifyContent: 'center',
-//           // display: 'flex', flexDirection: 'row', alignItems: 'center',
-//           // maxWidth: '800px', 
-//           // width: '100%',
-//           //  padding: '40px' 
-//         }}
-//       >
-
-//         <div className="card-buttons">
-//           <img
-//             src={product.image || "https://placehold.co/400x300"}
-//             alt={product.name}
-//             className="product-img"
-//           // style={{ height: '300px' }}
-//           />
-//           <button className="btn-primary" onClick={() => addToCart(product)}>
-//             Add to Cart
-//           </button>
-//           <button className="btn-secondary" onClick={() => addToWishlist(product)}>
-//             Add to Wishlist
-//           </button>
-//         </div>
-
-//         <div className="product-card"
-//         // style={{ maxWidth: '600px', width: '100%', padding: '40px' }}
-//         >
-//           <div className="product-info">
-//             <h1 style={{ fontSize: '28px', margin: '20px 0' }}>{product.name}</h1>
-//             <p
-//               style={{ color: '#666', marginBottom: '20px' }}
-//             >
-//               Category: {product.category}
-//             </p>
-//             <div className="product-price" style={{ fontSize: '24px' }}>
-//               Price: ${product.price}
-//             </div>
-
-//             <div className="product-rating"
-//             // style={{ margin: '10px 0 20px' }}
-//             >
-//               Rating: {product.rating} ⭐
-//             </div>
-//           </div>
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductDetailPage;
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../Context/CartContext';
@@ -85,7 +7,11 @@ import Navbar from '../Components/Navbar';
 const ProductDetailPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const { addToCart, addToWishlist } = useCart();
+  const { addToCart, addToWishlist ,removeFromWishlist, wishlist } = useCart();
+
+    // Check if this specific product is already in the wishlist
+  const isWishlisted = wishlist.some((item) => item.productId === productId);
+
 
   useEffect(() => {
     fetch(`https://e-commerce-backend-rosy-six.vercel.app/api/products/${productId}`)
@@ -93,6 +19,15 @@ const ProductDetailPage = () => {
       .then((data) => setProduct(data.data.product))
       .catch((err) => console.error(err));
   }, [productId]);
+
+  // Handler for toggling wishlist
+  const handleWishlistToggle = () => {
+    if (isWishlisted) {
+      removeFromWishlist(product.productId);
+    } else {
+      addToWishlist(product);
+    }
+  };
 
   if (!product) return <div className="app-container" style={{ padding: '20px' }}>Loading...</div>;
 
@@ -112,20 +47,27 @@ const ProductDetailPage = () => {
             {/* Wishlist Icon over image (Optional decorative touch) */}
             <button 
               className="wishlist-icon-btn"
-              onClick={() => addToWishlist(product)}
-              title="Add to Wishlist"
+               onClick={handleWishlistToggle}
+              title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+              style={{
+                color: isWishlisted ? 'red' : '#ccc', // Dynamic Color
+                borderColor: isWishlisted ? 'red' : '#ddd'
+              }}
+              // onClick={() => addToWishlist(product)}
+              // title="Add to Wishlist"
             >
-              ♥
+              ♥ 
+              {/* ♥ */}
             </button>
           </div>
 
           <div className="action-buttons-container">
-            <button 
+            {/* <button 
               className="btn-action btn-buy-now" 
               onClick={() => alert("Proceeding to Checkout...")}
             >
               BUY NOW
-            </button>
+            </button> */}
             <button 
               className="btn-action btn-add-cart" 
               onClick={() => addToCart(product)}
@@ -377,3 +319,81 @@ const ProductDetailPage = () => {
 };
 
 export default ProductDetailPage;
+
+// import React, { useEffect, useState } from 'react';
+// import { useParams } from 'react-router-dom';
+// import { useCart } from '../Context/CartContext';
+// import './ProductPage.css'; // Re-using existing CSS
+// import Navbar from '../Components/Navbar';
+
+// const ProductDetailPage = () => {
+//   const { productId } = useParams();
+//   const [product, setProduct] = useState(null);
+//   const { addToCart, addToWishlist } = useCart();
+
+//   useEffect(() => {
+//     // Fetch single product from your Backend API
+//     fetch(`http://localhost:5000/api/products/${productId}`)
+//       .then((res) => res.json())
+//       .then((data) => setProduct(data.data.product))
+//       .catch((err) => console.error(err));
+//   }, [productId]);
+
+//   if (!product) return <div className="app-container" style={{ padding: '20px' }}>Loading...</div>;
+
+//   return (
+//     <div className="app-container">
+//       <Navbar />
+//       <div className="main-content"
+//         style={{
+//           // justifyContent: 'center',
+//           // display: 'flex', flexDirection: 'row', alignItems: 'center',
+//           // maxWidth: '800px', 
+//           // width: '100%',
+//           //  padding: '40px' 
+//         }}
+//       >
+
+//         <div className="card-buttons">
+//           <img
+//             src={product.image || "https://placehold.co/400x300"}
+//             alt={product.name}
+//             className="product-img"
+//           // style={{ height: '300px' }}
+//           />
+//           <button className="btn-primary" onClick={() => addToCart(product)}>
+//             Add to Cart
+//           </button>
+//           <button className="btn-secondary" onClick={() => addToWishlist(product)}>
+//             Add to Wishlist
+//           </button>
+//         </div>
+
+//         <div className="product-card"
+//         // style={{ maxWidth: '600px', width: '100%', padding: '40px' }}
+//         >
+//           <div className="product-info">
+//             <h1 style={{ fontSize: '28px', margin: '20px 0' }}>{product.name}</h1>
+//             <p
+//               style={{ color: '#666', marginBottom: '20px' }}
+//             >
+//               Category: {product.category}
+//             </p>
+//             <div className="product-price" style={{ fontSize: '24px' }}>
+//               Price: ${product.price}
+//             </div>
+
+//             <div className="product-rating"
+//             // style={{ margin: '10px 0 20px' }}
+//             >
+//               Rating: {product.rating} ⭐
+//             </div>
+//           </div>
+//         </div>
+
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProductDetailPage;

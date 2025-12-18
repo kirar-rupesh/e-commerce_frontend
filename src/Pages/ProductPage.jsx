@@ -9,14 +9,14 @@ const ProductPage = () => {
   // 2. Get the functions from Context
   const { addToCart, addToWishlist, searchQuery, cart, wishlist } = useCart();
 
-  // --- STATE MANAGEMENT ---
+  // --- STATE MANAGEMENT --- 
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
   const [minRating, setMinRating] = useState(0);
   const [sortOrder, setSortOrder] = useState(""); // "lowToHigh" | "highToLow"
-  
+
   const { state } = useLocation();
   // Filter States
   const [priceRange, setPriceRange] = useState(2000); // Max price slider
@@ -218,7 +218,15 @@ const ProductPage = () => {
 
                   <div className="product-info">
                     <h3>{product.name}</h3>
-                    <div className="product-price">${product.price}</div>
+
+                    <span className="product-price">${product.price}
+                    </span>
+                    &nbsp; &ensp; 
+                    {/* &ensp; */}
+
+                      <span className="product-rating">
+                        {product.rating} ⭐
+                      </span>
                     {/* <div className="product-rating">
                       {product.rating} ⭐
                     </div> */}

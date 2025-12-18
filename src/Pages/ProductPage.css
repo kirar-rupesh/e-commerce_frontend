@@ -165,11 +165,13 @@
 
 .product-info {
   text-align: center; 
-  /* justify-content: center;
-  align-items: center; */
-  /* font-size: 16px;
-  margin: 0 0 5px 0;
-  color: #333; */
+  /* display: flex; */
+
+  /* justify-content: center; */
+  align-items: center; 
+   /* font-size: 16px; */
+  margin: 0 5px 5px 0;
+  /* color: #333;  */
 }
 
 .product-price {

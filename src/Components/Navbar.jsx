@@ -33,6 +33,7 @@ const Navbar =  () => {
          <Link 
             to={`/`} 
             className=""
+            style={{textDecoration:'none', color: "#726f76ff"}}
           >
             <div className="logo">MyShoppingSite</div>
             {/* <p>Shop {category.name}</p> */}
@@ -50,17 +51,22 @@ const Navbar =  () => {
       
         <div className="nav-icons">
             <Link to="/wishlist" className="icon-btn" style={{textDecoration:'none', color:'inherit'}}>
-             Wishlist <span className="badge">{wishlist.length}</span>
+             Wishlist &nbsp;  <span className="badge">{wishlist.length}</span>
           </Link>
+
+          &nbsp; &nbsp; 
 
           {/* <button className="icon-btn">
              Cart <span className="badge">{cart.reduce((acc, item) => acc + item.qty, 0)}</span>
           </button> */}
           
            {/* Updated: Now links to /cart */}
-        <Link to="/cart" className="icon-btn" style={{ textDecoration: 'none', color: 'inherit' }}>
-          Cart 
-          {totalCartItems > 0 && <span className="badge">{totalCartItems}</span>}
+        <Link to="/cart" className="icon-btn" style={{ 
+          textDecoration: 'none', 
+          color: 'inherit' 
+          }}>
+          Cart &nbsp; &nbsp; 
+          {totalCartItems > 0 &&   <span className="badge">  {totalCartItems}</span>}
         </Link>
           {/* <button className="icon-btn">
              Wishlist <span className="badge">1</span>

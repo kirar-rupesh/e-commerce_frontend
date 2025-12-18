@@ -1,11 +1,15 @@
 import React from 'react';
 import { useCart } from '../Context/CartContext';
-import './ProductPage.css'; // Re-using existing CSS
+// import './ProductPage.css'; // Re-using existing CSS
+import Navbar from '../Components/Navbar';
 
 const WishlistPage = () => {
   const { wishlist, removeFromWishlist, moveFromWishlistToCart } = useCart();
 
   return (
+    <div> 
+
+      <Navbar />
     <div className="app-container">
       <h2 style={{ textAlign: 'center', margin: '20px' }}>My Wishlist ({wishlist.length})</h2>
       
@@ -13,11 +17,15 @@ const WishlistPage = () => {
         <p style={{ textAlign: 'center' }}>Your wishlist is empty.</p>
       ) : (
         <div className="main-content">
-          <div className="product-grid">
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', padding: '20px' }} 
+          // className="product-grid" 
+          >
             {wishlist.map((product) => (
               <div key={product.productId} className="product-card">
                 <img src={product.image} alt={product.name} className="product-img" />
-                <div className="product-info">
+                <div 
+                // className="product-info"
+                >
                   <h3>{product.name}</h3>
                   <div className="product-price">${product.price}</div>
                 </div>
@@ -44,6 +52,7 @@ const WishlistPage = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };
