@@ -2,6 +2,8 @@ import './ProductPage.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../Context/CartContext';
+import { ToastContainer, toast , cssTransition} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../Components/Navbar';
 
 const ProductPage = () => {
@@ -14,16 +16,45 @@ const ProductPage = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const [minRating, setMinRating] = useState(0);
-  const [sortOrder, setSortOrder] = useState(""); // "lowToHigh" | "highToLow"
-
   const { state } = useLocation();
   // Filter States
-  const [priceRange, setPriceRange] = useState(2000); // Max price slider
   // const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(
     state && state.categoryName ? [state.categoryName] : []
   );
+
+  const [priceRange, setPriceRange] = useState(2000); // Max price slider
+  const [minRating, setMinRating] = useState(0);
+  const [sortOrder, setSortOrder] = useState(""); // "lowToHigh" | "highToLow"
+
+  // --- NEW FUNCTION: Add to Cart with Toast ---
+  const handleAddToCartWithToast = (product) => {
+    // 1. Perform the actual Add to Cart action
+    addToCart(product);
+
+    // 2. Show the Success Toast
+    toast(`${product.name} added to Cart!`, {
+      // position: "bottom-right",
+      autoClose: 2000,
+      // hideProgressBar: false,
+      closeOnClick: true,
+      // pauseOnHover: true,
+      // draggable: true,
+      // progress: undefined,
+      // theme: "light",
+    });
+  };
+
+  // --- NEW FUNCTION: Add to Wishlist with Toast (Optional Bonus) ---
+  const handleAddToWishlistWithToast = (product) => {
+    addToWishlist(product);
+    toast(`${product.name} added to Wishlist!`, {
+      // position: "bottom-right",
+      autoClose: 2000,
+      closeOnClick: true,
+    });
+  };
+
 
   // --- INITIAL DATA FETCH ---
   useEffect(() => {
@@ -114,7 +145,7 @@ const ProductPage = () => {
     <div className="app-container">
 
       {/* --- NAVBAR --- */}
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="main-content">
         {/* --- SIDEBAR FILTERS --- */}
@@ -221,12 +252,12 @@ const ProductPage = () => {
 
                     <span className="product-price">${product.price}
                     </span>
-                    &nbsp; &ensp; 
+                    &nbsp; &ensp;
                     {/* &ensp; */}
 
-                      <span className="product-rating">
-                        {product.rating} ⭐
-                      </span>
+                    <span className="product-rating">
+                      {product.rating} ⭐
+                    </span>
                     {/* <div className="product-rating">
                       {product.rating} ⭐
                     </div> */}
@@ -236,13 +267,15 @@ const ProductPage = () => {
 
                 <div className="card-buttons">
                   <button className="btn-primary"
-                    onClick={() => addToCart(product)}>
+                    onClick={() => handleAddToCartWithToast(product)}>
                     Add to Cart
                   </button>
+                  <ToastContainer />
                   <button className="btn-secondary"
-                    onClick={() => addToWishlist(product)}>
+                    onClick={() => handleAddToWishlistWithToast(product)}>
                     Add to Wishlist
                   </button>
+                  <ToastContainer />
                 </div>
               </div>
             ))}

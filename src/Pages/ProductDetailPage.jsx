@@ -33,7 +33,7 @@ const ProductDetailPage = () => {
 
   return (
     <div className="app-container" style={{ backgroundColor: '#fff', minHeight: '100vh' }}>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="detail-page-wrapper">
         
         {/* LEFT COLUMN: Image & Action Buttons */}

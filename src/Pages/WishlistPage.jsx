@@ -9,7 +9,7 @@ const WishlistPage = () => {
   return (
     <div> 
 
-      <Navbar />
+      {/* <Navbar /> */}
     <div className="app-container">
       <h2 style={{ textAlign: 'center', margin: '20px' }}>My Wishlist ({wishlist.length})</h2>
       

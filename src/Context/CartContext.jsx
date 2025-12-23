@@ -1,16 +1,51 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
-  const [wishlist, setWishlist] = useState([]);
-  const [cart, setCart] = useState([]);
+  // --- STATE INITIALIZATION WITH LOCAL STORAGE ---
+  
+  // 1. Initialize Wishlist from Local Storage if available
+  const [wishlist, setWishlist] = useState(  () => {
+    try {
+      const savedWishlist = localStorage.getItem('wishlist');
+      return savedWishlist ? JSON.parse(savedWishlist) : [];
+    } catch (error) {
+      console.error("Error reading wishlist from localStorage", error);
+      return [];
+    }
+  });
+
+  // 2. Initialize Cart from Local Storage if available 
+  const [cart, setCart] = useState(() => {
+    try {
+      const savedCart = localStorage.getItem('cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error("Error reading cart from localStorage", error);
+      return [];
+    }
+  });
 
    // --- NEW CODE: Search State ---
   const [searchQuery, setSearchQuery] = useState(""); 
   // ------------------------------
+
+  // --- PERSISTENCE EFFECTS ---
+
+  // 3. Save Wishlist to Local Storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  // 4. Save Cart to Local Storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+
 
   // Logic: Add to Cart (Increments qty if exists)
   const addToCart = (product) => {
@@ -26,7 +61,7 @@ export const CartProvider = ({ children }) => {
         return [...prevCart, { ...product, qty: 1 }];
       }
     });
-    alert(`${product.name} added to Cart!`);
+    // alert(`${product.name} added to Cart!`);
   };
 
   const removeFromCart = (productId) => {
@@ -66,7 +101,7 @@ export const CartProvider = ({ children }) => {
       return prev;
     });
     // Optional: Alert user
-    alert(`${product.name} added to Wishlist!`);
+    // alert(`${product.name} added to Wishlist!`);
   };
 
   // Logic: Remove from Wishlist

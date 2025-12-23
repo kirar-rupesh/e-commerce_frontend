@@ -18,7 +18,9 @@ function App() {
   return (
     <CartProvider>
       <Router>
-        {/* <Navbar /> */}
+       
+        <Navbar />
+       
         <Routes>
           {/* Route for the landing page / Home Page */}
           <Route path="/" element={<HomePage />} />

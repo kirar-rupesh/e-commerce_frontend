@@ -18,7 +18,7 @@ const CartPage = () => {
   if (cart.length === 0) {
     return (
       <div> 
-        <Navbar />
+        {/* <Navbar /> */}
       <div className="app-container" style={{ textAlign: 'center', padding: '50px' }}>
         <h2>Your Cart is Empty</h2>
         <Link to="/products" className="btn-primary" style={{ display: 'inline-block', marginTop: '20px', textDecoration: 'none' }}>
@@ -31,7 +31,7 @@ const CartPage = () => {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="app-container">
         <h2 style={{ textAlign: 'center', margin: '20px 0' }}>MY CART ({totalItems})</h2>
 

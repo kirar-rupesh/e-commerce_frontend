@@ -34,7 +34,7 @@ function HomePage() {
   return (
     <div>
 
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="home-page-container">
 
         <h1>Featured Categories</h1>
