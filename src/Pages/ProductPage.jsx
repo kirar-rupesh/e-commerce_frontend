@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../Context/CartContext';
 import { ToastContainer, toast , cssTransition} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from '../Components/Navbar';
 
 const ProductPage = () => {
 
@@ -15,6 +14,7 @@ const ProductPage = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   const { state } = useLocation();
   // Filter States
@@ -46,19 +46,41 @@ const ProductPage = () => {
   };
 
   // --- NEW FUNCTION: Add to Wishlist with Toast (Optional Bonus) ---
-  const handleAddToWishlistWithToast = (product) => {
-    addToWishlist(product);
-    toast(`${product.name} added to Wishlist!`, {
-      // position: "bottom-right",
-      autoClose: 2000,
-      closeOnClick: true,
-    });
+  // const handleAddToWishlistWithToast = (product) => {
+  //   addToWishlist(product);
+  //   toast(`${product.name} added to Wishlist!`, {
+  //     // position: "bottom-right",
+  //     autoClose: 2000,
+  //     closeOnClick: true,
+  //   });
+  // };
+
+  //  Toggle Wishlist with Toast ---
+  const handleWishlistToggle = (product) => {
+    // Check if the product is already in the wishlist
+    const isWishlisted = wishlist.some((item) => item.productId === product.productId);
+
+    if (isWishlisted) {
+      removeFromWishlist(product.productId);
+      toast(`${product.name} removed from Wishlist`, {
+        autoClose: 2000,
+        closeOnClick: true,
+      });
+    } else {
+      addToWishlist(product);
+      toast(`${product.name} added to Wishlist!`, {
+        autoClose: 2000,
+        closeOnClick: true,
+      });
+    }
   };
+
 
 
   // --- INITIAL DATA FETCH ---
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Start loading
       try {
         // Fetching from the API created in previous steps
         const prodRes = await fetch('https://e-commerce-backend-rosy-six.vercel.app/api/products');
@@ -73,6 +95,8 @@ const ProductPage = () => {
 
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Stop loading regardless of success/error
       }
     };
     fetchData();
@@ -88,6 +112,10 @@ const ProductPage = () => {
 
   // --- FILTERING LOGIC ---
   useEffect(() => {
+     // If we have no products yet (and still loading), we might just wait, 
+    // but the loading spinner handles the visual part.
+    if (allProducts.length === 0) return;
+
     let tempProducts = [...allProducts];
 
     // --- NEW CODE: Filter by Search Query ---
@@ -234,9 +262,20 @@ const ProductPage = () => {
             {searchQuery ? `Results for "${searchQuery}"` : "Showing All Products"}
             ({filteredProducts.length} products)
           </div>
-
+          
+            {/* --- LOADING STATE UI --- */}
+          {loading ? (
+             <div style={{ textAlign: 'center', padding: '50px', fontSize: '18px', color: '#666' }}>
+               Loading Products...
+             </div>
+          ) : (
           <div className="product-grid">
-            {filteredProducts.map(product => (
+            {filteredProducts.map(product => {
+              // Logic to check if product is already in wishlist
+              const isWishlisted = wishlist.some((item) => item.productId === product.productId);
+
+              return (
+
               <div key={product.productId} className="product-card">
                 {/* Image Placeholder used if actual image fails or placeholder API is slow */}
 
@@ -271,15 +310,23 @@ const ProductPage = () => {
                     Add to Cart
                   </button>
                   <ToastContainer />
-                  <button className="btn-secondary"
+                  {/* <button className="btn-secondary"
                     onClick={() => handleAddToWishlistWithToast(product)}>
                     Add to Wishlist
+                  </button> */}
+                  <button 
+                    className="btn-secondary"
+                    onClick={() => handleWishlistToggle(product)}
+                    style={isWishlisted ? { color: 'red', borderColor: 'red' } : {}}
+                  >
+                    {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                   </button>
                   <ToastContainer />
                 </div>
               </div>
-            ))}
+            )})}
           </div>
+          )}
         </main>
       </div>
     </div>

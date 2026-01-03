@@ -48,14 +48,16 @@ const CartPage = () => {
                 <div className="cart-item-details">
                   <h3>{item.name}</h3>
                   <div className="price-block">
-                    <span className="current-price">₹{item.price}</span>
-                    <span className="original-price">₹{item.price * 2}</span>
+                    <span className="current-price">${item.price}</span>
+                    <span className="original-price">${item.price * 2}</span>
                     <span className="discount-tag">50% off</span>
                   </div>
 
                   <div className="qty-controls">
                     <span>Quantity: </span>
-                    <button onClick={() => decrementQty(item.productId)} disabled={item.qty <= 1}>-</button>
+                    <button onClick={() => decrementQty(item.productId)} 
+                    // disabled={item.qty <= 1}
+                    >-</button>
                     <span className="qty-value">{item.qty}</span>
                     <button onClick={() => incrementQty(item.productId)}>+</button>
                   </div>
@@ -80,24 +82,25 @@ const CartPage = () => {
               <hr />
               <div className="price-row">
                 <span>Price ({cart.reduce((acc, i) => acc + i.qty, 0)} items)</span>
-                <span>₹{originalPrice}</span>
+                <span>${originalPrice}</span>
               </div>
               <div className="price-row">
                 <span>Discount</span>
-                <span className="text-green">- ₹{discount}</span>
+                <span className="text-green">- ${discount}</span>
               </div>
               <div className="price-row">
                 <span>Delivery Charges</span>
-                <span>₹{deliveryCharges}</span>
+                <span>${deliveryCharges}</span>
               </div>
+
               <hr />
               <div className="price-row total-row">
                 <span>TOTAL AMOUNT</span>
-                <span>₹{totalAmount}</span>
+                <span>${totalAmount}</span>
               </div>
               <hr />
-              <p className="savings-text">You will save ₹{discount} on this order</p>
-              
+              <p className="savings-text">You will save ${discount} on this order</p>
+
               <Link to="/checkout" className="btn-place-order">
                 PLACE ORDER
               </Link>

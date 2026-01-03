@@ -50,7 +50,8 @@ const Navbar =  () => {
       {/* --------------------------------- */}
       
         <div className="nav-icons">
-            <Link to="/wishlist" className="icon-btn" style={{textDecoration:'none', color:'inherit'}}>
+            <Link to="/wishlist" className="icon-btn" 
+            style={{textDecoration:'none', color:'inherit'}}>
              Wishlist &nbsp;  <span className="badge">{wishlist.length}</span>
           </Link>
 
@@ -61,12 +62,13 @@ const Navbar =  () => {
           </button> */}
           
            {/* Updated: Now links to /cart */}
-        <Link to="/cart" className="icon-btn" style={{ 
-          textDecoration: 'none', 
-          color: 'inherit' 
-          }}>
-          Cart &nbsp; &nbsp; 
-          {totalCartItems > 0 &&   <span className="badge">  {totalCartItems}</span>}
+        <Link to="/cart" className="icon-btn" 
+        style={{ textDecoration: 'none', color: 'inherit' }}>
+          
+          Cart &nbsp;  
+          {
+          // totalCartItems > 0 &&   
+          <span className="badge">  {totalCartItems}</span>}
         </Link>
           {/* <button className="icon-btn">
              Wishlist <span className="badge">1</span>

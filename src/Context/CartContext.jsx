@@ -78,12 +78,28 @@ export const CartProvider = ({ children }) => {
   };
 
   const decrementQty = (productId) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.productId === productId
-          ? { ...item, qty: item.qty > 1 ? item.qty - 1 : 1 }
-          : item
-      )
+    setCart((prev) => {
+      // Find the item first to check quantity
+      const existingItem = prev.find((item) => item.productId === productId);
+      
+      if (existingItem?.qty === 1) {
+        // If quantity is 1, remove the item entirely
+        return prev.filter((item) => item.productId !== productId);
+      } else {
+        // Otherwise decrement
+        return prev.map((item) =>
+          item.productId === productId
+            ? { ...item, qty: item.qty - 1 }
+            : item
+        );
+      }
+    }
+      
+      // prev.map((item) =>
+      //   item.productId === productId
+      //     ? { ...item, qty: item.qty > 1 ? item.qty - 1 : 1 }
+      //     : item
+      // )
     );
   };
 
