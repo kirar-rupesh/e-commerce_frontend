@@ -1,0 +1,111 @@
+/* Base Navbar Styling (Desktop First) */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 20px;
+}
+
+/* Section 1: Logo and Search */
+.nav-section-main {
+  display: flex;
+  align-items: center;
+  flex: 1; /* Takes up available space */
+  gap: 20px;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 24px;
+  white-space: nowrap; /* Prevents logo text from breaking */
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 500px; /* Limit width on large screens */
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+}
+
+/* Section 2: Actions (Wishlist/Cart) */
+.nav-section-actions {
+  display: flex;
+  align-items:start;
+  gap: 25px;
+  flex-shrink: 0; /* Prevents icons from squishing */
+}
+
+.icon-btn {
+  text-decoration: none;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.badge {
+  background-color: #ff4d4d;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 11px;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-weight: bold;
+}
+
+/* --- MOBILE RESPONSIVENESS (< 768px) --- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack the two sections vertically */
+    padding: 15px 20px;
+    align-items: stretch; /* Stretch items to full width */
+    gap: 15px;
+  }
+
+  /* Adjust Section 1 for Mobile */
+  .nav-section-main {
+    flex-direction: column; /* Stack Logo and Search vertically */
+    align-items: center; /* Center align them */
+    width: 100%;
+    gap: 15px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  .search-bar {
+    max-width: 100%; /* Full width search on mobile */
+    width: 100%;
+  }
+
+  /* Adjust Section 2 for Mobile */
+  .nav-section-actions {
+    justify-content: space-around; /* Spread icons evenly */
+    width: 100%;
+    border-top: 1px solid #f0f0f0; /* Optional separator */
+    padding-top: 10px;
+  }
+}
